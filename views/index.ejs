@@ -38,8 +38,7 @@
 
   <div class="container d-flex flex-column justify-content-center">
     <h2>Uploaded files:</h2>
-
-    <% if(filesInfo.length > 0) { %>
+    <% if(locals.retrievedFiles.length > 0) { %>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -51,13 +50,13 @@
           </tr>
         </thead>
         <tbody>
-          <% filesInfo.forEach(function(file, index) { %>
+          <% locals.retrievedFiles.forEach(function(file, index) { %>
           <tr>
             <th scope="row"><%= index + 1 %></th>
             <td><%= file.originalName %></td>
-            <td><%= file.id %></td>
-            <td><a href="<%= file.fileLink %>"><%= file.fileLink %></a></td>
-            <% if (file.passwordProtected) {%>
+            <td><%= file._id %></td>
+            <td><a href="<%= `${origin}/file/${file.id}` %>"><%= `${origin}/file/${file.id}` %></a></td>
+            <% if (file.password) {%>
               <td>Yes</td>
             <% } else { %>
               <td>No</td>
