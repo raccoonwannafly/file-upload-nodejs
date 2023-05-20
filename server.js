@@ -21,12 +21,12 @@ db.once('open', () => {
 
 app.set('view engine', 'ejs')
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   console.log(`server started on port: ${process.env.PORT}`)
   res.render('index')
 })
 
-const filesInfo = []
+// const filesInfo = []
 
 app.post('/upload', upload.single("file"), async (req, res) => {
   const fileData = {
@@ -34,26 +34,24 @@ app.post('/upload', upload.single("file"), async (req, res) => {
     originalName: req.file.originalname
   }
 
+
   const passwordProtected = (req.body.password != null) && (req.body.password !== "")
-  console.log(passwordProtected)
   
   if(passwordProtected) {
     // Encrypt password on server
-    fileData.password = await bcrypt.hash(req.body.password, 10)
+    fileData.password = await bcrypt.hash(req.body.password, 10)  
   }
 
   const file = await File.create(fileData)
+  const origin = req.headers.origin
   
-  const fileLink = `${req.headers.origin}/file/${file.id}`
+  const fileLink = `${origin}/file/${file.id}`
 
-  filesInfo.push({...fileData, id: file.id, passwordProtected: passwordProtected, fileLink: fileLink})
-
-  console.log(filesInfo)
-
-
+  const retrievedFiles = await File.find({}).exec()
+  console.log(retrievedFiles)
   // res.send(file.originalName)
   // localHost/file/id
-  res.render('index', { fileLink: fileLink, passwordProtected: passwordProtected, filesInfo})
+  res.render('index', { fileLink: fileLink, origin: origin, passwordProtected: passwordProtected, retrievedFiles: retrievedFiles})
 
 })
 
