@@ -45,7 +45,7 @@ dotenv.config()
 import express from 'express'
 ```
 
-#### Img:
+#### Demo img:
 ![image](https://github.com/raccoonwannafly/file-upload-nodejs/assets/130273473/4cd0f85f-8265-47b8-919e-db917e5f877a)
 ![image](https://github.com/raccoonwannafly/file-upload-nodejs/assets/130273473/2e364b25-a243-4add-a66c-a5ed745dc571)
 
